@@ -1,100 +1,40 @@
 #!/usr/bin/python
 from pathlib import Path
 import json
+
+#Loading json file data
 with open(Path('quiz.json'),'r') as f:
    config =json.load(f)
-#config = json.loads(open(Path('G:\\Softwares\\Docker\\quiz\\quiz.json')).read())
-print(config)
-sportcorrect=0
-sportincorrect=0
-mathscorrect=0
-mathsincorrect=0
+
+groups = list(config['quiz'].keys())
 print("Welcome to Quiz !!!")
-print("1. Sports \n2. Maths")
+# Display quiz of group names
 
-group=input("Choose your Group 1 or 2 ?")
+for i in range(len(groups)):
+    print(str(i+1) + '. ' + str(groups[i]))
+group = int(input("Choose your Group:"))
 
-"""def clear():
-    if name == 'nt' :
-        _ = system('cls')
-clear()"""
+if group in range(1, len(groups)+1):
+    selected_group = groups[group-1]
+    num_correct, num_wrong = (0,0)
 
-if (group == "1"):
-    print("You Chose Sports")
-    print(config['quiz']['sport']['q1']['question'])
-    print("1."+config['quiz']['sport']['q1']['options'][0])
-    print("2."+config['quiz']['sport']['q1']['options'][1])
-    print("3."+config['quiz']['sport']['q1']['options'][2])
-    print("4."+config['quiz']['sport']['q1']['options'][3])
-    choice = int(input("Please Choose your option:"))
-    if choice == 4 :
-        print("Your Choice is " + str(choice))
-        print("Correct Answer")
-        sportcorrect+=1
-    else:
-        print("Your choice is " + str(choice))
-        print("Incorrect Answer")
-        sportincorrect+=1
+    for question_id, question_info in config['quiz'][selected_group].items():
+        print(question_id)
+        print(question_info['question'])
+        for l in range(0, 4):
+            print(l + 1, end=" ")
+            print(question_info['options'][l])
+        choice = int(input("Please Choose your option:"))
+        if question_info['options'][choice-1] == question_info['answer']:
+            num_correct += 1
+            print("Correct Answer")
+        else:
+            num_wrong += 1
+            print("Incorrect Answer")
+            print("Correct answer is: ", question_info['answer'])
 
-    #print(config['quiz']['sport']['q1']['answer'])
-    print("Number of correct answers " ,sportcorrect)
-    print("number of incorrect answers " ,sportincorrect)
-
-
+    # Printing the result
+    print("Number of correct answers ", num_correct)
+    print("Number of incorrect answers ", num_wrong)
 else:
-    print("You chose Maths")
-    print("1. "+ config['quiz']['maths']['q1']['question'])
-    print("1. "+ config['quiz']['maths']['q1']['options'][0])
-    print("2. "+ config['quiz']['maths']['q1']['options'][1])
-    print("3. "+ config['quiz']['maths']['q1']['options'][2])
-    print("4. "+ config['quiz']['maths']['q1']['options'][3])
-    choice = int(input("Please Choose your option:"))
-
-    if choice == 3:
-     #def incr():
-      #  global count
-       # count + 1
-        #print("correct answer :" + str(count))
-        #print()
-        print("Your choice is " + str(choice))
-        print("Correct answer")
-        mathscorrect+=1
-       # print(count)
-    else:
-
-        print("Your choice is " + str(choice))
-        print("Incorrect answer")
-        mathsincorrect+=1
-    print("2. " + config['quiz']['maths']['q2']['question'])
-    print("1. " + config['quiz']['maths']['q2']['options'][0])
-    print("2. " + config['quiz']['maths']['q2']['options'][1])
-    print("3. " + config['quiz']['maths']['q2']['options'][2])
-    print("4. " + config['quiz']['maths']['q2']['options'][3])
-    opt = int(input("Please Choose your option:"))
-    if opt == 4:
-     #   count + 1
-        print("Your choice is " + str(opt))
-        print("Correct Answer")
-        mathscorrect+=1
-    else:
-      #  cnt + 1
-        print("Your choice is " + str(opt))
-        print("Incorrect Answer")
-        mathsincorrect+=1
-
-#print("correct answer :"+str(count))
-#print()
-
-#print("incorrect answer : "+str(cnt))
-#print()
-
-    print("Number of correct answers " , mathscorrect)
-    print("Number of incorrect answers " ,mathsincorrect)
-
-
-#Sports = input("Sports")
-#Maths = input("Maths") '''
-
-
-
-
+    print("Please choose valid option")
