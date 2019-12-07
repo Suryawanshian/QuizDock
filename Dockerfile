@@ -1,10 +1,13 @@
-FROM python:3
+FROM ubuntu:18.04
 
 
-ADD quiz.py /
-ADD quiz.json /
+RUN apt-get update 
+
+RUN apt-get install -y build-essential python3.7 python3.7-dev python3-pip python3.7-venv
+
+ADD  . /app
+
+WORKDIR /app
 
 
-RUN pip install pystrich 
-
-CMD ["python", "./quiz.py","quiz" ]
+CMD ["python3.7", "quiz.py"]
