@@ -1,10 +1,10 @@
 #!/usr/bin/python
-from pathlib import Path
+
 import json
 
 #Loading json file data
-with open(Path('quiz.json'),'r') as f:
-   config =json.load(f)
+config =json.loads(open('quiz.json').read())
+
 
 groups = list(config['quiz'].keys())
 print("Welcome to Quiz !!!")
@@ -14,6 +14,7 @@ for i in range(len(groups)):
     print(str(i+1) + '. ' + str(groups[i]))
 group = int(input("Choose your Group:"))
 
+
 if group in range(1, len(groups)+1):
     selected_group = groups[group-1]
     num_correct, num_wrong = (0,0)
@@ -22,8 +23,9 @@ if group in range(1, len(groups)+1):
         print(question_id)
         print(question_info['question'])
         for l in range(0, 4):
-            print(l + 1, end=" ")
+            print(str(l + 1), end=" ")
             print(question_info['options'][l])
+
         choice = int(input("Please Choose your option:"))
         if question_info['options'][choice-1] == question_info['answer']:
             num_correct += 1
